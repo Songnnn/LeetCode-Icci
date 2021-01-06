@@ -1,0 +1,18 @@
+class Solution {
+ public:
+     bool isUnique(string astr) {
+         //使用位运算来做
+         //我感觉我很少用位运算，但其实有时候真的很巧妙
+         int aa = 0;
+         int cc = 1;
+         for (int i = 0; i < astr.size(); i++) {
+             char t = astr[i];
+             int offset = t - 'a'; //把任一字符当成原点，计算出偏移值，这里选择a
+
+             int bb = cc << offset; //计算出偏移值，bb=0001000的形式（只有一位为1，其他位全为0）
+             if ((aa & bb) != 0) return false; //进行与运算，如果没有遇到重复数值（即aa和bb对应位都是1的情况），计算结果肯定是0
+             aa = aa | bb; //进行或运算，即记下出现过的字符，将对应位置标记为1
+         }
+         return true;
+     }
+ };
