@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool CheckPermutation(string s1, string s2) {
+        //检查两个字符串的字符种类及个数
+        map<char, int> m;
+        for (int i = 0; i < s1.size(); i++) {
+            //记录s1的字符信息
+            if (m.count(s1[i]) == 0) m[s1[i]] = 1;
+            else m[s1[i]]++;
+        }
+
+        for (int i = 0; i < s2.size(); i++) {
+            if (m.count(s2[i]) == 0 || m[s2[i]] == 0) return false; //如果有不同的字符出现
+            m[s2[i]]--;
+        }
+
+        //检查各字符的个数是否匹配
+        int size = m.size();
+        for (int i = 0; i < size; i++) {
+            if (m[i] != 0) return false;
+        }
+        return true;
+    }
+};
