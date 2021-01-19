@@ -1,0 +1,58 @@
+class Solution {
+public:
+    bool judge(string first, string second) {
+        //first的长度要比second的长度多1
+        int len1 = first.size();
+        int len2 = second.size();
+
+        //是否可以删除
+        //删除只有三种情况，删最前面，删中间，删最后面
+        if (first[0] != second[0]) {
+            //是否可以删除最前面的
+            for (int i = 0; i < len2; i++) {
+                if (first[i + 1] != second[i]) return false;
+            }
+            return true;
+        }
+        else if (first[len1 - 1] != second[len2 - 1]) {
+            //是否可以删除最后面的
+            for (int i = 0; i < len2; i++) {
+                if (first[i] != second[i]) return false;
+            }
+            return true;
+        }
+        else {
+            //是否可以删除中间的
+            for (int i = 0; i < len2; i++) {
+                if (first[i] != second[i]) {
+                    for (int j = i; j < len2; j++) {
+                        if (first[j + 1] != second[j]) return false;
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool oneEditAway(string first, string second) {
+        //将first变成second
+        int len1 = first.size();
+        int len2 = second.size();
+
+        if (len1 == len2) {
+            //长度之差只能是0或者1
+            //是否可以替换
+            int tag = 0;
+            for (int i = 0; i < len1; i++) {
+                if (tag > 1) return false;
+                if (first[i] != second[i]) tag++;
+            }
+            if (tag <= 1) return true;
+        }
+        //替换可以看成删除
+        if (len1 == len2 + 1) return judge(first, second);
+        else if (len2 == len1 + 1) return judge(second, first);
+        return false;
+    }
+};
