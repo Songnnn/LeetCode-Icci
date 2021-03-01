@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string compressString(string S) {
+        int len1 = S.size();
+        string result;
+        int cnt = 0;
+        for (int i = 0; i < len1; i++) {
+            if (i == 0) cnt++;
+            else {
+                if (S[i] == S[i - 1]) cnt++;
+                else {
+                    result += S[i - 1];
+                    result += to_string(cnt);
+                    cnt = 1;
+                }
+            }
+            if (i == len1 - 1) {
+                result += S[i];
+                result += to_string(cnt);
+            }
+        }
+
+        int len2 = result.size();
+        if (len2 < len1) return result;
+        return S;
+    }
+};
