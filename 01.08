@@ -1,0 +1,66 @@
+//JAVA版
+//两次遍历，第一次计下需要归零的行数和列数，第二次进行归零
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0)
+            return;
+        int m = matrix.length, n = matrix[0].length;
+        int[] rows = new int[m], columns = new int[n];
+        // 第一次遍历
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(matrix[i][j] == 0){
+                    rows[i] = 1;
+                    columns[j] = 1;
+                }
+            }
+        }
+        // 第二次遍历
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(rows[i] == 1 || columns[j] == 1) matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
+//C++版
+//将整个矩阵化为一个数组来做，但是没通过，好像哪里有问题
+
+class Solution {
+public:
+    void func(vector<int>& res, int i, int M, int N) {
+        for (int j = 0; j < M * N; j++) {
+            if (res[j] == 0) continue;
+            //判断是否是同一列
+            if ((i - j) % N == 0 || (j - i) % N == 0) res[j] == 0;
+            //判断是否是同一行
+            int first = (i / N) * N;
+            int last = ((i / N) + 1) * N - 1;
+            if (first <= j <= last) res[j] == 0;
+        }
+    }
+
+    void setZeroes(vector<vector<int>>& matrix) {
+        //将该矩阵化为数组进行操作
+        int M = matrix.size();
+        int N = matrix[0].size();
+        vector<int> res;
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                res.push_back(matrix[i][j]);
+            }
+        }
+
+        for (int i = 0; i < res.size(); i++) {
+            if (res[i] == 0) func(res,i,M,N);
+        }
+        
+        int k = 0;
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                matrix[i][j] = res[k];
+            }
+        }
+    }
+};
