@@ -1,0 +1,10 @@
+class Solution {
+public:
+    bool isFlipedString(string s1, string s2) {
+        if (s1.size() != s2.size()) return false;
+        //拼接两个s2（也可以拼接两个s1），如果是true，则拼接后的字符串必定含有s1
+        string s = s2 + s2;
+        if (s.find(s1) == string::npos) return false;
+        return true;
+    }
+};
