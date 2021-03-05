@@ -1,0 +1,30 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+ 
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        //只需要把所有小于x的节点都放到左边就行了
+        ListNode* p = head;
+        if (!head) return head;
+        while (p->next) {
+            if (p->next->val < x) {
+                //找到小于x的节点，先复制到head处，再删除
+                ListNode* s = new ListNode(p->next->val);
+                //s->val = p->val;
+                s->next = head;
+                head = s;
+                p->next = p->next->next;
+            }
+            else p = p->next;
+        }
+        return head;
+    }
+};
