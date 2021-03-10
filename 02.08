@@ -1,0 +1,44 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* detectCycle(ListNode* head) {
+        //最简单的方法是用set容器，其内元素必须唯一，所以遇到重复的就是环的入口所在了
+        //这里用快慢指针来做，其数学原理的证明看官方解答
+        ListNode* fast = head; //fast指针的遍历速度是low指针的两倍
+        ListNode* low = head;
+        while (1) {
+            //有环才会相等,fast和low相遇时跳出循环
+            if (low == NULL) return NULL;
+            low = low->next;
+            if (fast == NULL || fast->next == NULL) return NULL;
+            fast = fast->next->next;
+            if(fast == low) break;
+        }
+        ListNode* p = head;
+        while (p!=low) {
+            p = p->next;
+            low = low->next;
+        }
+        
+        return p;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
