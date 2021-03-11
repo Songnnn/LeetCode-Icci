@@ -1,0 +1,51 @@
+class StackOfPlates {
+public:
+    vector<stack<int>> v;
+    int cap;
+    StackOfPlates(int cap) {
+        //cap means capacity
+        this->cap = cap;
+    }
+
+    void newStack(vector<stack<int>> &p, int val, int cap) {
+        if (cap > 0) {
+            stack<int> s;
+            s.push(val);
+            p.push_back(s);
+        } 
+    }
+
+    void push(int val) {
+        int size = v.size();
+        if (size == 0) newStack(v, val,cap);
+        else {
+            if (v[size - 1].size() == cap) {
+                //栈的容量满了
+                newStack(v, val,cap);
+            }
+            else v[size - 1].push(val);
+        }
+    }
+
+    int pop() {
+        int size = v.size();
+        if (size == 0) return -1; //如果没有一个栈
+        int top = v[size - 1].top();
+        v[size - 1].pop();
+        if (v[size - 1].empty()) v.pop_back(); //空的栈将会被删除
+        return top;
+    }
+
+    int popAt(int index) {
+        vector<stack<int>>::iterator it = v.begin();
+        for (int i = 0; i < v.size() && it != v.end(); i++, it++) {
+            if (index == i) { //找到了指定的栈
+                int top = v[i].top();
+                v[i].pop();
+                if (v[i].empty()) v.erase(it); //空的栈将会被删除
+                return top;
+            }
+        }
+        return -1;
+    }
+};
