@@ -1,0 +1,26 @@
+class Solution {
+private:
+    map<int, set<int>> m;
+    vector<int> visit;
+public:
+    bool bfs(int start, int target) {
+        if (visit[start] == 1) return false;
+        visit[start] = 1;
+        for (auto x : m[start]) {
+            if (x == target) return true;
+            if (x != start && visit[x] == 0) {
+                if (bfs(x, target)) return true;
+            }
+        }
+        return false;
+    }
+
+    bool findWhetherExistsPath(int n, vector<vector<int>>& graph, int start, int target) {
+        
+        for (int i = 0; i < graph.size(); i++) { //建立临接矩阵
+            m[graph[i][0]].insert(graph[i][1]);
+        }
+        visit = vector<int>(n, 0);
+        return bfs(start, target);
+    }
+};
