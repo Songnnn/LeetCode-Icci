@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+  
+class Solution {
+public:
+    vector<ListNode*> listOfDepth(TreeNode* tree) {
+        vector<ListNode*> res;
+        if (tree == NULL) return res;
+        queue<TreeNode*> q;
+        q.push(tree);
+        
+
+        while (!q.empty()) {
+            ListNode* head = new ListNode(0); //头结点
+            ListNode* help = head;
+            vector<TreeNode*> temp; //当前层的所有树节点
+            while (!q.empty()) { 
+                temp.push_back(q.front());
+                ListNode* p = new ListNode(q.front()->val);
+                head->next = p;
+                head = p;
+                q.pop();
+            }
+            if (help->next != NULL) res.push_back(help->next);
+
+            
+            for (int i = 0; i < temp.size(); i++) {
+                if (temp[i]->left != NULL) q.push(temp[i]->left);
+                if (temp[i]->right != NULL) q.push(temp[i]->right);
+            }
+        }
+        return res;
+    }
+};
