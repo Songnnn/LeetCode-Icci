@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool func(TreeNode* root, TreeNode* t) {
+        if (!root && !t) return true;
+        if (root && t) {
+            if (root->val == t->val) return func(root->left, t->left) && func(root->right, t->right);
+        }
+        return false;
+    }
+
+    bool checkSubTree(TreeNode* t1, TreeNode* t2) {
+        //t2得是t1的子树，相同也不行，t1和t2默认都不为空
+        //通过栈对t1进行遍历，每个节点树都与t2相比较
+        stack<TreeNode*> s;
+        if (t1->left) s.push(t1->left);
+        if (t1->right) s.push(t1->right);
+        bool res = false;
+        while (!s.empty()) {
+            TreeNode* top = s.top();
+            s.pop();
+            res = func(top, t2);
+            if (res) break;
+            if (top->left != nullptr) s.push(top->left);
+            if (top->right != nullptr) s.push(top->right);
+        }
+        return res;
+    }
+};
