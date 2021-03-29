@@ -1,0 +1,28 @@
+class Solution {
+private:
+    int ways = 0;
+public:
+    void findPath(TreeNode* r, int sum) {
+        if (r) {
+            sum -= r->val;
+            if (sum == 0) ways++;
+            findPath(r->left, sum);
+            findPath(r->right, sum);
+        }
+    }
+
+    int pathSum(TreeNode* root, int sum) {
+    //栈遍历每一个节点，以每个节点为根，寻找可能的路径
+        if (!root) return ways;
+        stack<TreeNode*> s;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode* top = s.top();
+            findPath(top, sum);
+            s.pop();
+            if (top->left) s.push(top->left);
+            if (top->right) s.push(top->right);
+        }
+        return ways;
+    }
+};
