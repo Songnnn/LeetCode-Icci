@@ -1,0 +1,55 @@
+//很不尽人意
+//执行用时：在所有 C++ 提交中击败了5.10%的用户
+//内存消耗：在所有 C++ 提交中击败了5.09%的用户
+class Solution {
+private:
+    vector<vector<int>> result;
+    int tag = 0;
+public:
+    void dfs(vector<vector<int>> obs, vector<vector<int>> res, vector<int> now, vector<int> end, vector<vector<int>>& visited) {
+        //走到死胡同却无法正常回溯
+        //如果函数参数传的是引用类型，那么会被其他点污染，所以函数参数不能是引用类型，也不能是全局的
+        //那么返回值必须是二维vector类型，但是在没有结果的时候，该返回什么值呢？
+        if (tag == 0) { //还没找到结果
+            int now_row = now[0];
+            int now_col = now[1];
+            visited[now_row][now_col] = 1;
+            if (now_row == end[0] && now_col == end[1]) {
+                result = res;
+                tag = 1;
+            }
+            //向下走
+            int flag = 0;
+            if (obs.size() - 1 > now_row) {
+                if (obs[now_row + 1][now_col] == 0 && visited[now_row + 1][now_col] == 0) {
+                    flag = 1;
+                    res.push_back({ now_row + 1,now_col });
+                    dfs(obs, res, { now_row + 1,now_col }, end, visited);
+                }
+            }
+            //向右走
+            if (obs[0].size() - 1 > now_col) {
+                if (obs[now_row][now_col + 1] == 0 && visited[now_row][now_col + 1] == 0) {
+                    if (flag == 1) res.pop_back();
+                    res.push_back({ now_row,now_col + 1 });
+                    dfs(obs, res, { now_row,now_col + 1 }, end, visited);
+                }
+            }
+        }
+    }
+
+    vector<vector<int>> pathWithObstacles(vector<vector<int>>& obstacleGrid) {
+        vector<vector<int>> res;
+        if (obstacleGrid[0][0] == 1) return res; //起点是1
+        vector<int> end;
+        end.push_back(obstacleGrid.size() - 1);
+        end.push_back(obstacleGrid[0].size() - 1);
+        if (obstacleGrid[end[0]][end[1]] == 1) return res; //终点是1
+        vector<int> now(2, 0);
+        res.push_back(now);
+        vector<int> v(obstacleGrid[0].size(), 0);
+        vector<vector<int>> visited(obstacleGrid.size(), v);
+        dfs(obstacleGrid, res, now, end, visited);
+        return result;
+    }
+};
