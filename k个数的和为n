@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void dfs(vector<vector<int>>& res, vector<int> temp, int k, int n, int start) {
+	if (temp.size() == k || n <= 0) {
+		if (temp.size() == k && n == 0) {
+			res.push_back(temp);
+		}
+		return;
+	}
+	for (int i = start; i <= 9; i++) {
+		temp.push_back(i);
+		dfs(res, temp, k, n - i, i + 1);
+		temp.pop_back(); //这个删除很灵性，因为如果到了这里，说明该组合不行，所以要删一个才能继续尝试
+	}
+}
+
+
+int main() {
+	int k = 3, n = 15;
+	vector<vector<int>> res;
+	vector<int> temp;
+	dfs(res, temp, k, n, 1);
+	return 0;
+}
