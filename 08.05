@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int qmul(int a, int b) {
+        int sum = 0;
+        while (b > 0) {
+            if (b & 1) sum += a;
+            b /= 2; //右移一位
+            if(b > 0) a = a + a; //其实不用判断，每次结束都要加，只是最后一次操作可能会超过int范围
+        }
+        return sum;
+    }
+    int multiply(int A, int B) {
+        return qmul(A, B);
+    }
+};
