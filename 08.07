@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void backtarck(vector<string>& res, string s, string temp) {
+        for (int i = 0; i < s.size(); i++) {
+            if (temp.find(s[i]) == string::npos) {
+                //如果s[i]不在temp中
+                temp += s[i];
+                if (temp.size() == s.size()) {
+                    res.push_back(temp);
+                    return;
+                }
+                backtarck(res, s, temp);
+                temp.erase(temp.size() - 1, 1);
+            }
+        }
+    }
+
+    vector<string> permutation(string S) {
+        vector<string> res;
+        string temp;
+        backtarck(res, S, temp);
+        return res;
+    }
+};
