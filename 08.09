@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void backtrack(vector<string>& res, string temp, int n, int left, int right) {
+        if (temp.size() < 2 * n) {
+            if (left < n) {
+                temp += "(";
+                left++;
+                backtrack(res, temp, n, left, right);
+                temp.erase(temp.size() - 1, 1);
+                left--;
+            }
+            if (right < n && left > right) {
+                temp += ")";
+                right++;
+                backtrack(res, temp, n, left, right);
+            }
+        }
+        else if (temp.size() == 2 * n) res.push_back(temp);
+    }
+
+
+    vector<string> generateParenthesis(int n) {
+        //打印n对括号的所有合法的组合
+        vector<string> res;
+        string temp = "(";
+        backtrack(res, temp, n, 1, 0);
+        return res;
+    }
+};
