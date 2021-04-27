@@ -1,6 +1,7 @@
 class Solution {
 public:
     int search(vector<int>& arr, int target) {
+        //最佳方法是使用二分法，首先找到最小值作为中间点，自动就得到了两个已排序的序列，这里使用的不是二分法
         //时间复杂度肯定不能大于等于n，不然就没意义了
         int dir = 1, i = 0; //方向
         if (arr[0] > target) { //向左遍历
