@@ -1,0 +1,27 @@
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        //方法1：
+        //每个string都对应一个letter[26]
+        //如果string1.letter==string2.letter，就认为是变位词，但不能完全相同
+        //方法2（使用中）：
+        //先对每个string排序，如果是变位词，那么排序之后就是完全相同的，再用map
+        map<string, vector<string>> m;
+        vector<vector<string>> res;
+        for (int i = 0; i < strs.size(); i++) {
+            string temp = strs[i];
+            sort(temp.begin(), temp.end());
+            if (m.count(temp) == 0) {
+                vector<string> v;
+                m[temp] = v;
+            }
+            m[temp].push_back(strs[i]);
+        }
+        
+        for (auto i = m.begin(); i != m.end(); i++) {
+            res.push_back(i->second);
+        }
+        return res;
+    }
+};
