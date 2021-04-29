@@ -1,0 +1,17 @@
+class Solution {
+public:
+    void wiggleSort(vector<int>& nums) {
+        //升序排序，分成两部分，前部分为谷，后部分为峰
+        vector<int> temp(nums);
+        sort(temp.begin(), temp.end());
+        auto it = temp.begin();
+        for (int i = 0; i <= temp.size() / 2; i++) it++;
+        vector<int> down(temp.begin(), it);
+        vector<int> up(it, temp.end());
+        int upi = 0, di = 0;
+        for (int i = 0; i < nums[i]; i++) {
+            if (i % 2 == 0 || i == 0) nums[i] = up[upi++];
+            else nums[i] = down[di++];
+        }
+    }
+};
