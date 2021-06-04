@@ -1,0 +1,18 @@
+//如果map里面没有，返回ans[word]相当于先在map里插入一个key为word，value为0的值，然后返回value，也就是0
+class WordsFrequency 
+{
+public:
+    unordered_map<string,int> ans;
+    WordsFrequency(vector<string>& book) 
+    {
+        for(auto BOOK : book)
+        {
+            ans[BOOK]++;
+        }
+    }
+    
+    int get(string word) 
+    {
+        return ans[word];
+    }
+};
