@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int maxAliveYear(vector<int>& birth, vector<int>& death) {
+        int n = birth.size();
+        vector<int> a(2002, 0);
+        for (int i = 0; i < n; i++) {
+            int x = birth[i], y = death[i];
+            a[x] += 1; a[y+1] += -1; //出生日期和死亡日期有可能重复
+        }
+        
+        int tmp = 0；
+        int idx = 0; //存活人数最多的年份
+        int sum = 0; //存活人数最多时的人数
+        for (int i = 1900; i <= 2000; ++i) {
+            sum += a[i];
+            if (tmp < sum) {
+                tmp = sum; 
+                idx = i;
+            }
+        }
+        return idx;
+    }
+};
